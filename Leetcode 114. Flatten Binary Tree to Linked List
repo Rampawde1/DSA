@@ -1,0 +1,58 @@
+class Solution {
+    class pair{
+        TreeNode head;
+        TreeNode tail;
+        pair(){
+            
+        }
+        pair(TreeNode head, TreeNode tail){
+            this.head = head;
+            this.tail = tail;
+        }
+    }
+    public void flatten(TreeNode root) {
+        if(root != null){
+            helper(root);
+        }
+    }
+    public pair helper(TreeNode node){
+        if(node.left != null && node.right != null){
+            pair lp = helper(node.left);
+            pair rp = helper(node.right);
+            
+            pair mp = new pair();
+            
+            mp.head = node;
+            mp.head.left = null;
+            mp.head.right = lp.head;
+            lp.tail.right = rp.head;
+            mp.tail = rp.tail;
+            
+            return mp;
+        } else if(node.left != null){
+            pair lp = helper(node.left);
+                
+            pair mp = new pair();
+            mp.head = node;
+            mp.head.left = null;
+            mp.head.right = lp.head;
+            mp.tail = lp.tail;
+            
+            return mp;
+        } else if(node.right != null){
+            pair rp = helper(node.right);
+            
+            pair mp = new pair();
+            mp.head = node;
+            mp.head.left = null;
+            mp.head.right = rp.head;
+            mp.tail = rp.tail;
+            
+            return mp;
+        } else{
+            pair mp = new pair(node, node);
+            
+            return mp;
+        }
+    }
+}
