@@ -1,0 +1,62 @@
+class Solution {
+    class Pair{
+        String config;
+        int level;
+    }
+    public int slidingPuzzle(int[][] board) {
+        HashSet<String> vis = new HashSet<>();
+        
+        ArrayDeque<Pair> queue = new ArrayDeque<>();
+        
+        Pair rootp = new Pair();
+        rootp.config = getConfig(board);
+        rootp.level = 0;
+        
+        queue.add(rootp);
+        while(queue.size() > 0){
+            Pair rem = queue.remove();  //remove
+            
+            if(vis.contains(rem.config)){ //if already mark
+                continue;
+            }
+            vis.add(rem.config); //otherwise mark (if not)
+            
+            if(rem.config.equals("123450")){
+                return rem.level;      //if it is equal to our ans. then return its level
+            }
+            int[][] dirs = {{1, 3}, {0, 2, 4}, {1, 5}, {0, 4}, {1, 3, 5}, {2, 4}};  //otherwise add nebour of '0'
+            
+            int idx =  rem.config.indexOf('0');
+            for(int i : dirs[idx]){
+                String nconfig = swap(rem.config, idx, i);
+                if(!vis.contains(nconfig)){
+                    Pair np = new Pair();
+                    np.config = nconfig;
+                    np.level = rem.level + 1;
+                    queue.add(np);
+                }
+            }
+        }
+        return -1;
+    }
+    public String swap(String str, int i, int j){
+        StringBuilder sb = new StringBuilder(str);
+        
+        char chi = sb.charAt(i);
+        char chj = sb.charAt(j);
+        
+        sb.setCharAt(i, chj);
+        sb.setCharAt(j, chi);
+        
+        return sb.toString();
+    }
+    public String getConfig(int[][] board){
+        StringBuilder sb = new StringBuilder();
+        for(int[] row : board){
+            for(int val : row){
+                sb.append(val);
+            }
+        }
+        return sb.toString();
+    }
+}
