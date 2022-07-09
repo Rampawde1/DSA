@@ -1,0 +1,36 @@
+class Solution {
+    public String crackSafe(int n, int k) {
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < n; i++){
+            sb.append(0);   //if n = 3 then sb = 000
+        }
+        HashSet<String> vis = new HashSet<>();
+        vis.add(sb.toString());
+        
+        int lim = (int)Math.pow(k, n);
+        
+        dfs(sb, vis, lim, n, k);
+        return sb.toString();
+    }
+    public boolean dfs(StringBuilder sb, HashSet<String> vis, int lim, int n, int k) {
+        if(vis.size() == lim){
+            return true;
+        }
+        String lnm1 = sb.substring(sb.length() - (n - 1));  //if sb.length = 3 then 3-2 = 1; i.e from  1  onwords we'll continue
+        for(int i = 0; i < k; i++) {
+            String newpass = lnm1 + i;
+            
+            if(!vis.contains(newpass)){
+                vis.add(newpass);
+                sb.append(i);
+                boolean flag = dfs(sb, vis, lim, n, k);
+                if(flag) {
+                    return true;
+                }
+                vis.remove(newpass);
+                sb.deleteCharAt(sb.length() - 1);
+            }
+        }
+        return false;
+    }
+}
