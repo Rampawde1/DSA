@@ -1,0 +1,79 @@
+class Solution 
+{ 
+    int findMaxFlow(int N, int M, ArrayList<ArrayList<Integer>> Edges) 
+    { 
+        // code here
+        int maxflow = 0;
+        // first make graph
+        int[][] graph = new int[N + 1][N + 1];   //Original graph
+        int[][] rgraph = new int[N + 1][N + 1]; //residual graph
+        
+        for(ArrayList<Integer> edge : Edges){
+            int u = edge.get(0);
+            int v = edge.get(1);
+            int w = edge.get(2);
+            
+            graph[u][v] += w;
+            graph[v][u] += w;
+            
+            rgraph[u][v] += w;
+            rgraph[v][u] += w;
+        }
+        //now find path
+        int[] parent = new int[N + 1];
+        while(pathFound(parent, rgraph) == true) {
+            int flow = Integer.MAX_VALUE;
+            
+            int v = N;
+            while(v != 1){
+                int pv = parent[v];
+                int price = rgraph[pv][v];
+                
+                if(price < flow){
+                    flow = price;
+                }
+                v = pv;
+            }
+            v = N;
+            while(v != 1){
+                int pv = parent[v];
+                
+                rgraph[pv][v] -= flow; // subtract from forword
+                rgraph[v][pv] += flow;// add in reverse
+                
+                v = pv;
+            }
+            maxflow += flow;
+        }
+        return maxflow;
+    }
+    
+    boolean pathFound(int[] parent, int[][] rgraph){
+        ArrayDeque<Integer> queue = new ArrayDeque<>();
+        
+        boolean[] vis =  new boolean[parent.length];
+        
+        queue.add(1);
+        
+        while(queue.size() != 0){
+            int rem = queue.remove();
+            
+            if(vis[rem]){
+                continue;
+            }
+            vis[rem] = true;
+            
+            if(rem == parent.length - 1){
+                return true;
+            }
+            // now find nebour
+            for(int n = 1; n < rgraph.length; n++){
+                if(rgraph[rem][n] > 0 && !vis[n]){
+                    queue.add(n);
+                    parent[n] = rem;
+                }
+            }
+        }
+        return false;
+    }
+}
