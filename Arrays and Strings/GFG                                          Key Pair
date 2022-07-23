@@ -1,0 +1,22 @@
+class Solution {
+    boolean hasArrayTwoCandidates(int arr[], int n, int x) {
+        // code here
+        Arrays.sort(arr);
+        int res = 0;
+        int li = 0;
+        int ri  = arr.length - 1;
+        
+        while(li < ri){
+            int sum = arr[li] + arr[ri];
+            
+            if(sum == x){
+                return true;
+            } else if(sum > x){
+                ri--;
+            } else{
+                li++;
+            }
+        }
+        return false;
+    }
+}
