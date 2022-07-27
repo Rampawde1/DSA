@@ -1,0 +1,49 @@
+//Approach-01 By using extra space//
+class Solution {
+    public int partitionDisjoint(int[] nums) {
+       int[] left = new int[nums.length];
+       int[] right = new int[nums.length];
+        
+        for(int i = 0; i < nums.length; i++){
+            if(i == 0){
+               left[i] = nums[i];
+            } else{
+                left[i] = Math.max(nums[i], left[i - 1]);
+            }
+        }
+        for(int i = nums.length - 1; i >= 0; i--){
+            if(i == nums.length - 1){
+               right[i] = nums[i];
+            } else{
+                right[i] = Math.min(nums[i], right[i + 1]);
+            }
+        }
+        int res = -1;//There is at least one valid answer for the given input.
+        for(int i = 0; i < nums.length; i++){
+            if(left[i] <= right[i + 1]){
+                res = i + 1;
+                break;
+            }
+        }
+        return res;
+        }
+    }
+    ---------------------------------------------------------------------------------------------------------------------
+    Approach-02 without using any extra space
+    class Solution {
+    public int partitionDisjoint(int[] nums) {
+     int pi = 0;//partion idx;
+        int mtp = nums[0]; //max till partition
+        int mts = nums[0]; //max till search
+        
+        for(int i = 1; i < nums.length; i++){
+            mts = Math.max(nums[i], mts);// update mts
+            
+            if(nums[i] < mtp){
+                pi = i;
+                mtp = mts;
+            }
+        }
+        return pi + 1;
+        }
+    }
