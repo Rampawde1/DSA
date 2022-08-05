@@ -1,0 +1,18 @@
+class Solution {
+    public int findMin(int[] nums) {
+      int lo = 0;
+        int hi = nums.length - 1;
+        
+        while(lo < hi){
+            int mid = (lo + hi)/2;
+         if(nums[hi] > nums[mid]){ 
+             //i.e when hi > mid then growth will be in right side then go to left
+            hi = mid;// therefore we are replacing our hi as a mid
+        } else{
+             //when growth in left side then i.e hi < mid then go to right
+            lo = mid + 1;
+        }
+    }
+    return nums[lo];
+    }
+}
