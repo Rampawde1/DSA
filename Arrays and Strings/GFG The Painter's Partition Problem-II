@@ -1,0 +1,36 @@
+class Solution{
+    static long minTime(int[] arr,int n,int k){
+        //code here
+         long lta = Long.MIN_VALUE;//lowest time allowed
+         long hta = 0;
+        
+        for(int val: arr){
+            hta += val;
+            lta = Math.max(lta, val);
+        }
+        //now find mid
+        while(lta < hta){
+            long ta = (lta + hta)/2;//i.e mid = time allowed = limit
+            
+            int paintersReqd = 1;
+            int currPainterWork = 0;
+            
+            for(int val: arr){
+                if(currPainterWork + val <= ta){
+                    currPainterWork += val;
+                } else{
+                    currPainterWork = val;
+                    paintersReqd++;
+                }
+            }
+            if(paintersReqd > k){
+                lta = ta + 1;
+            } else{
+                hta = ta;
+            }
+        }
+        return lta;
+    }
+}
+
+
