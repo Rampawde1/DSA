@@ -1,0 +1,36 @@
+class Solution {
+    public int splitArray(int[] nums, int m) {
+     int hi = 0;
+     int lo = Integer.MIN_VALUE;
+        
+        for(int num: nums){  //e.g [7, 2, 5, 10, 8]
+            hi += num;
+            lo = Math.max(num, lo);//so that we got [10, 32]
+        }
+       
+        
+        while(lo < hi){
+            int mid = (lo + hi)/2;
+            int limit = mid;
+            
+             int countParts = 1;//bcoz initially whole arr.
+             int currPartSum = 0;
+            
+            for(int num: nums){
+                if(currPartSum + num <= limit){
+                    currPartSum += num;
+                } else{
+                    currPartSum = num;
+                    countParts++;
+                }
+            }
+            if(countParts > m){
+                //i.e invalid partion
+                lo = mid + 1;
+            } else{
+                hi = mid;
+            }
+        }
+        return lo;
+    }
+}
