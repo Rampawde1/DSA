@@ -1,0 +1,26 @@
+class Solution {
+    public int smallestDivisor(int[] nums, int threshold) {
+      int lo = 1;
+      int hi = Integer.MIN_VALUE;
+        
+        for(int num: nums){
+            if(num > hi){
+                hi = num;
+            }
+        }
+        while(lo < hi){
+            int div = (lo + hi)/2;
+                
+            int sum = 0;
+            for(int val: nums){
+                sum += (val + div - 1)/div;
+            }
+            if(sum > threshold){
+                lo = div + 1;
+            } else{
+                hi = div;
+            }
+        }
+        return lo;
+    }
+}
