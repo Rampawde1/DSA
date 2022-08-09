@@ -1,0 +1,34 @@
+public class Solution {
+    public int books(ArrayList<Integer> A, int B) {
+        if(A.size() < B){
+            return -1;
+        }
+        int lo = Integer.MIN_VALUE;
+        int hi = 0;
+        
+        for(int val: A){
+            hi += val;
+            lo = Math.max(lo, val);
+        }
+        while(lo < hi){
+            int allote = (lo + hi)/2;
+            
+            int reqdStudend = 1;
+            int curr = 0;
+            for(int val: A){
+                if(curr + val <= allote){
+                    curr = curr + val;
+                } else{
+                    reqdStudend++;
+                    curr = val;
+                }
+            }
+            if(reqdStudend > B){
+                lo = allote + 1;
+            } else{
+                hi = allote;
+            }
+        }
+        return lo;
+    }
+}
