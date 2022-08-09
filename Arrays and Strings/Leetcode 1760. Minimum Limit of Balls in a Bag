@@ -1,0 +1,31 @@
+class Solution {
+    public int minimumSize(int[] nums, int maxOperations) {
+       int lams = 1;//lowest allowed max.size
+       int hams = 0;// highest allowed max size 
+        
+        for(int num: nums){
+            hams = Math.max(hams, num);
+        }
+        while(lams < hams){
+            //allowed max. size ams = mid
+            int ams = (lams + hams)/2;
+            
+            int opsReqd = 0;//operation reqd.
+            
+            for(int ball: nums){
+                if(ball > ams){
+                    int spare = ball - ams;
+                    int ops = (spare + ams  - 1)/ams; //ceil
+                    
+                    opsReqd += ops;
+                }
+            }
+            if(opsReqd > maxOperations){
+                lams = ams + 1;
+            } else{
+                hams = ams;
+            }
+        }
+        return lams;
+    }
+}
