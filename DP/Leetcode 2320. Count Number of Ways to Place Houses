@@ -1,0 +1,20 @@
+class Solution {
+    public int countHousePlacements(int n) {
+      int MOD = 1000000007;
+        
+        long zero = 1;
+        long one = 1;
+        
+        for(int i = 2; i <= n; i++){
+            long nz = one;
+            long no = (one + zero) % MOD;
+            
+            one = no;
+            zero = nz;
+        }
+        long tot = (one + zero) % MOD;
+        long ans = (tot * tot) % MOD;
+        
+        return (int)ans;
+    }
+}
