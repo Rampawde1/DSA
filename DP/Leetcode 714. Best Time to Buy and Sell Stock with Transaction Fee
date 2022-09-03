@@ -1,0 +1,17 @@
+class Solution {
+    public int maxProfit(int[] prices, int fee) {
+        int obsp = -prices[0];//old bought state profit
+        int ossp = 0;//old sold state profit
+        
+        for(int i = 1; i < prices.length; i++){
+            //nbsp = new bought state profit
+            int nbsp = Math.max(ossp - prices[i], obsp);
+            //nssp = new sold state profit
+            int nssp = Math.max(obsp + prices[i] - fee, ossp);
+            
+            obsp = nbsp;
+            ossp = nssp;
+        }
+        return ossp;
+    }
+}
