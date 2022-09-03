@@ -1,0 +1,23 @@
+class Solution {
+    public int maxProfit(int[] prices) {
+       int obsp = -prices[0];//old bought state profit;
+        
+        int ossp = 0;//old sold state profit
+        
+        int ocsp = 0;//old cold state profit
+        
+        for(int i = 1; i < prices.length; i++){
+            //nbsp = new bought state profit
+            int nbsp = Math.max(ocsp - prices[i], obsp);
+            //nssp = new sold state profit
+            int nssp = Math.max(obsp + prices[i], ossp);
+            //ncsp = new cold state profit
+            int ncsp = Math.max(ossp, ocsp);
+            
+            obsp = nbsp;
+            ossp = nssp;
+            ocsp = ncsp;
+        }
+        return ossp;
+    }
+}
