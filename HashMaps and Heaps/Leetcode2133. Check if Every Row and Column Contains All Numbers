@@ -1,0 +1,18 @@
+class Solution {
+    public boolean checkValid(int[][] matrix) {
+      HashSet<String> set = new HashSet<>();
+         int r = matrix.length;
+        int c = matrix[0].length;
+        for(int i = 0; i < r; i++){
+            for(int j = 0; j < c; j++){
+                if(!set.add("row" + i + " " + matrix[i][j])){
+                    return false;
+                }
+                if(!set.add("column" + j +  " " + matrix[i][j])){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+}
