@@ -18,3 +18,48 @@ class Solution {
         node.next.next = node;
     }
 }
+----------------------------------------------------------------------------------------------
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+   public ListNode reverseList(ListNode head) {
+//       if(head == null){
+//           return null;
+//       }  
+//         helper(head);
+//         head.next = null;
+//         return nhead;
+//     }
+//     ListNode nhead;
+    
+//     void helper(ListNode node){
+//         if(node.next == null){
+//             nhead = node;
+//             return;
+//         }
+//         helper(node.next);
+//         node.next.next = node;
+       if(head == null){
+           return null;
+       }
+       ListNode prev = null;
+       ListNode curr = head;
+       
+       while(curr != null){
+           ListNode forw = curr.next;
+           curr.next = prev;
+           
+           prev = curr;
+           curr = forw;
+       }
+       return prev;
+    }
+}
