@@ -1,0 +1,90 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+   // By Recurssioin
+    public static int goldmineRec(int i,int j, int [][] arr){
+        if(i < 0 || i >= arr.length || j < 0 || j >= arr[0].length){
+            return 0;
+        }
+        int a = goldmineRec(i - 1, j + 1, arr);
+        int b = goldmineRec(i, j + 1, arr);
+        int c = goldmineRec(i + 1, j + 1, arr);
+        
+        int max = Math.max(a, Math.max(b, c)) + arr[i][j];
+        return max;
+    }
+    // By Memoization
+      public static int goldmineMem(int i,int j, int [][] arr, int [][] dp){
+        if(i < 0 || i >= arr.length || j < 0 || j >= arr[0].length){
+            return 0;
+        }
+        if(dp[i][j] != 0){
+            return dp[i][j];
+        }
+        int a = goldmineMem(i - 1, j + 1, arr, dp);
+        int b = goldmineMem(i, j + 1, arr, dp);
+        int c = goldmineMem(i + 1, j + 1, arr, dp);
+        
+        int max = Math.max(a, Math.max(b, c)) + arr[i][j];
+        return dp[i][j] = max;
+    }
+    // By Tabulation
+    public static int goldminesTab(int [][] arr){
+        int n = arr.length;
+        int m = arr[0].length;
+        int [][] dp = new int[n][m];
+        
+        for(int j = m - 1; j >= 0;j--){
+            for(int i = 0; i < n; i++){
+                
+                //last column of 1st row
+                if(j == m - 1){
+                    dp[i][j] = arr[i][j];
+                }
+                //only for 1st row but any column
+                else if(i == 0){
+                    dp[i][j] = arr[i][j] + Math.max(dp[i][j + 1], dp[i + 1][j + 1]);
+                }
+                else if(i == n - 1){
+                    dp[i][j] = Math.max(dp[i - 1][j + 1], dp[i][j + 1]) + arr[i][j];
+                }
+                else{
+                    dp[i][j] = Math.max(dp[i - 1][j + 1], Math.max(dp[i][j + 1], dp[i + 1][j + 1])) + arr[i][j];
+                }
+            }
+        }
+        int ans = -1;
+        for(int i = 0; i < n; i++){
+            ans = Math.max(dp[i][0], ans);
+        }
+        return ans;
+    }
+
+    public static void main(String[] args) throws Exception {
+        // write your code here
+        Scanner scn  = new Scanner(System.in);
+        int n = scn.nextInt();
+        int m = scn.nextInt();
+        int [][] arr = new int[n][m];
+        
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                arr[i][j] = scn.nextInt();
+            }
+        }
+        
+        // int [][] dp = new int[n][m];
+        // int max = -1;
+        // for(int i = 0; i < n; i++){
+        //     //int ans = goldmineRec(i, 0, arr);
+        //     int ans = goldmineMem(i, 0, arr, dp);
+        //     max = Math.max(ans, max);
+        //}
+        
+        //System.out.println(max);
+        int ans = goldminesTab(arr);
+        System.out.println(ans);
+    }
+
+}
